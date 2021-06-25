@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RecipeFragment extends Fragment {
     RecyclerView recyclerView;
     SearchView searchBar;
-    ComplexSearch search;
+    SpoonacularService search;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +35,7 @@ public class RecipeFragment extends Fragment {
                 .baseUrl("https://api.spoonacular.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        search = retrofit.create(ComplexSearch.class);
+        search = retrofit.create(SpoonacularService.class);
         if(searchBar.getQuery().toString().isEmpty()){
             randomRecipes();
         }
