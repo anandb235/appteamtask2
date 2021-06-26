@@ -16,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +47,30 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
                 .getImage()).into(holder.foodImage);
         holder.restChain.setText(String.format("Chain: %s", res.getMenuItems().get(position).getRestaurantChain()));
         holder.id = res.getMenuItems().get(position).getId();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.spoonacular.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        SpoonacularService search = retrofit.create(SpoonacularService.class);
+        search.getMenuItemInfo(holder.id,BuildConfig.API_KEY).enqueue(new Callback<List<MenuInfoResult>>(){
+
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onResponse(Call<List<MenuInfoResult>> call, Response<List<MenuInfoResult>> response) {
+                List<MenuInfoResult> res = response.body();
+                holder.calories.setText(String.format("Caloriessss: %.1f", res.get(position).getCalories()));
+                holder.fat.setText(String.format("Fat: %s", res.get(position).getFat()));
+                holder.protein.setText(String.format("Protein: %s", res.get(position).getProtein()));
+                holder.carbs.setText(String.format("Carbs: %s", res.get(position).getCarbs()));
+            }
+
+            @Override
+            public void onFailure(Call<List<MenuInfoResult>> call, Throwable t) {
+                Log.i("onFailure: ", t.getMessage());
+            }
+        });
 
     }
 
@@ -79,11 +105,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
             carbs = itemView.findViewById(R.id.carbs);
 
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.spoonacular.com/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            SpoonacularService search = retrofit.create(SpoonacularService.class);
+
 
 
 
@@ -94,23 +116,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
                     relativeLayout.setVisibility(View.GONE);
                 }
                 else{
-                    search.getMenuItemInfo(id,BuildConfig.API_KEY).enqueue(new Callback<MenuInfoModel>(){
-
-                        @SuppressLint("DefaultLocale")
-                        @Override
-                        public void onResponse(Call<MenuInfoModel> call, Response<MenuInfoModel> response) {
-                            MenuInfoModel res = response.body();
-                            calories.setText(String.format("Caloriessss: %.1f", res.getNutrition().get(0).getCalories()));
-                            fat.setText(String.format("Fat: %s", res.getNutrition().get(0).getFat()));
-                            protein.setText(String.format("Protein: %s", res.getNutrition().get(0).getProtein()));
-                            carbs.setText(String.format("Carbs: %s", res.getNutrition().get(0).getCarbs()));
-                        }
-
-                        @Override
-                        public void onFailure(Call<MenuInfoModel> call, Throwable t) {
-                            Log.i("onFailure: ", t.getMessage());
-                        }
-                    });
                     relativeLayout.setVisibility(View.VISIBLE);
                 }
             });

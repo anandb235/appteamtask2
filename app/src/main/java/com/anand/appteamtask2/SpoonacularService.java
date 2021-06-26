@@ -1,5 +1,7 @@
 package com.anand.appteamtask2;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -14,7 +16,7 @@ public interface SpoonacularService {
     Call<RandomModel> getRandom(@Query("number") int number, @Query("apiKey") String apiKey);
 
     @GET("food/menuItems/{id}")
-    Call<MenuInfoModel> getMenuItemInfo(@Path("id") int id,@Query("apiKey") String apiKey);
+    Call<List<MenuInfoResult>> getMenuItemInfo(@Path("id") int id, @Query("apiKey") String apiKey);
 
     @GET("food/menuItems/search")
     Call<MenuModel> getMenuItem(@Query("query") String query, @Query("number") int number,@Query("apiKey") String apiKey);
