@@ -54,20 +54,21 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         SpoonacularService search = retrofit.create(SpoonacularService.class);
-        search.getMenuItemInfo(holder.id,BuildConfig.API_KEY).enqueue(new Callback<List<MenuInfoResult>>(){
+        search.getMenuItemInfo(res.getMenuItems().get(position).getId(),BuildConfig.API_KEY).enqueue(new Callback<MenuInfoResult>(){
 
             @SuppressLint("DefaultLocale")
             @Override
-            public void onResponse(Call<List<MenuInfoResult>> call, Response<List<MenuInfoResult>> response) {
-                List<MenuInfoResult> res = response.body();
-                holder.calories.setText(String.format("Caloriessss: %.1f", res.get(position).getCalories()));
-                holder.fat.setText(String.format("Fat: %s", res.get(position).getFat()));
-                holder.protein.setText(String.format("Protein: %s", res.get(position).getProtein()));
-                holder.carbs.setText(String.format("Carbs: %s", res.get(position).getCarbs()));
+            public void onResponse(Call<MenuInfoResult> call, Response<MenuInfoResult> response) {
+                MenuInfoResult res = response.body();
+                holder.calories.setText(String.format("Caloriessss:"+res.getNutrition().getCalories()));
+                holder.fat.setText(String.format("Fat:"+res.getNutrition().getFat()));
+                holder.protein.setText(String.format("Protein:"+res.getNutrition().getProtein()));
+                holder.carbs.setText(String.format("Carbs:"+res.getNutrition().getCarbs()));
+
             }
 
             @Override
-            public void onFailure(Call<List<MenuInfoResult>> call, Throwable t) {
+            public void onFailure(Call<MenuInfoResult> call, Throwable t) {
                 Log.i("onFailure: ", t.getMessage());
             }
         });

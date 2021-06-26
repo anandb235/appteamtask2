@@ -16,7 +16,7 @@ public interface SpoonacularService {
     Call<RandomModel> getRandom(@Query("number") int number, @Query("apiKey") String apiKey);
 
     @GET("food/menuItems/{id}")
-    Call<List<MenuInfoResult>> getMenuItemInfo(@Path("id") int id, @Query("apiKey") String apiKey);
+    Call<MenuInfoResult> getMenuItemInfo(@Path("id") int id, @Query("apiKey") String apiKey);
 
     @GET("food/menuItems/search")
     Call<MenuModel> getMenuItem(@Query("query") String query, @Query("number") int number,@Query("apiKey") String apiKey);

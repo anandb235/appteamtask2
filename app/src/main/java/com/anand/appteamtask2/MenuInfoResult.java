@@ -1,21 +1,22 @@
 package com.anand.appteamtask2;
+class Nutrition{
+    public double calories;
+    public String fat;
+    public String protein;
+    public String carbs;
 
-public class MenuInfoResult {
-    float calories;
-    String fat,protein,carbs;
-
-    public MenuInfoResult(float calories, String fat, String protein, String carbs) {
+    public Nutrition(double calories, String fat, String protein, String carbs) {
         this.calories = calories;
         this.fat = fat;
         this.protein = protein;
         this.carbs = carbs;
     }
 
-    public float getCalories() {
+    public double getCalories() {
         return calories;
     }
 
-    public void setCalories(float calories) {
+    public void setCalories(double calories) {
         this.calories = calories;
     }
 
@@ -41,5 +42,20 @@ public class MenuInfoResult {
 
     public void setCarbs(String carbs) {
         this.carbs = carbs;
+    }
+}
+public class MenuInfoResult {
+    public Nutrition nutrition;
+
+    public MenuInfoResult(Nutrition nutrition) {
+        this.nutrition = nutrition;
+    }
+
+    public Nutrition getNutrition() {
+        return nutrition;
+    }
+
+    public void setNutrition(Nutrition nutrition) {
+        this.nutrition = nutrition;
     }
 }
