@@ -1,20 +1,29 @@
 package com.anand.appteamtask2;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+@SuppressWarnings("NullableProblems")
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.myViewHolder>{
 
     ComplexSearchModel res;
@@ -48,6 +57,31 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.myViewHold
         else{
             holder.vegInfo.setImageResource(R.drawable.ic_non_veg);
         }
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.spoonacular.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        SpoonacularService search = retrofit.create(SpoonacularService.class);
+        search.getRecipeCard(holder.id,BuildConfig.API_KEY).enqueue(new Callback<RecipeCard>(){
+
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onResponse(Call<RecipeCard> call, Response<RecipeCard> response) {
+                RecipeCard res = response.body();
+                if(res != null)
+                    holder.cardUrl = res.getUrl();
+            }
+
+            @Override
+            public void onFailure(Call<RecipeCard> call, Throwable t) {
+                Log.i("onFailure: ", t.getMessage());
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -56,13 +90,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.myViewHold
     }
 
 
-    class myViewHolder extends RecyclerView.ViewHolder {
+    static class myViewHolder extends RecyclerView.ViewHolder {
         TextView foodName,prepTime,servings,estCost,healthScore;
         ImageView foodImage,vegInfo;
         int id;
         CardView cardView;
         Button nextButton;
         RelativeLayout recipeInfo;
+        Dialog myDialog;
+        String cardUrl;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +113,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.myViewHold
             recipeInfo = itemView.findViewById(R.id.recipeInfo);
             vegInfo = itemView.findViewById(R.id.veg_nonVeg);
 
+
             cardView.setOnClickListener(view -> {
                 if (recipeInfo.getVisibility() == View.VISIBLE){
                     recipeInfo.setVisibility(View.GONE);
@@ -87,8 +124,27 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.myViewHold
             });
 
             nextButton.setOnClickListener(view -> {
-                Toast.makeText(view.getContext(), "button "+id, Toast.LENGTH_SHORT).show();
+                myDialog = new Dialog(view.getContext());
+                ShowPopup();
             });
+        }
+
+        public void ShowPopup(){
+            ImageView close;
+            WebView webView,foodCard;
+
+            myDialog.setContentView(R.layout.custom_popup_recipe);
+            close = myDialog.findViewById(R.id.cutButton);
+            foodCard = myDialog.findViewById(R.id.foodImage);
+            webView = myDialog.findViewById(R.id.webView);
+            close.setOnClickListener(view -> myDialog.dismiss());
+            foodCard.loadUrl(cardUrl);
+            foodCard.getSettings().setLoadWithOverviewMode(true);
+            foodCard.getSettings().setUseWideViewPort(true);
+            webView.loadUrl("https://api.spoonacular.com/recipes/"+id+"/nutritionWidget?defaultCss=true&apiKey="+BuildConfig.API_KEY);
+//            TextView viewLink = myDialog.findViewById(R.id.viewLink);
+//            viewLink.setText(String.valueOf(id));
+            myDialog.show();
         }
     }
 }

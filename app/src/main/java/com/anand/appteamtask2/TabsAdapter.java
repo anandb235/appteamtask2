@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+
 public class TabsAdapter extends FragmentStatePagerAdapter {
     int mNoOfTabs;
     public TabsAdapter(@NonNull FragmentManager fm, int behavior) {
@@ -17,11 +18,9 @@ public class TabsAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                RecipeFragment recipe = new RecipeFragment();
-                return recipe;
+                return new RecipeFragment();
             case 1:
-                MenuFragment menu = new MenuFragment();
-                return menu;
+                return new MenuFragment();
             default:
                 return null;
         }

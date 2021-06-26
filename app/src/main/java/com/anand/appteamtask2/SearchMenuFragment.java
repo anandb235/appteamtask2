@@ -18,6 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
+@SuppressWarnings("NullableProblems")
 public class SearchMenuFragment extends Fragment {
     RecyclerView recyclerView;
     SpoonacularService search;
@@ -51,9 +52,6 @@ public class SearchMenuFragment extends Fragment {
                 Log.i("onFailure: ", t.getMessage());
             }
         });
-
-
-
         return v;
     }
 }

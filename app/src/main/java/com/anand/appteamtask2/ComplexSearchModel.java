@@ -13,7 +13,5 @@ public class ComplexSearchModel {
         return results;
     }
 
-    public void setResults(List<ComplexSearchResults> results) {
-        this.results = results;
-    }
+
 }

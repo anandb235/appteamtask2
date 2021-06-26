@@ -23,23 +23,11 @@ public class MenuResults {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getRestaurantChain() {
         return restaurantChain;
     }
 
-    public void setRestaurantChain(String restaurantChain) {
-        this.restaurantChain = restaurantChain;
-    }
-
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 }

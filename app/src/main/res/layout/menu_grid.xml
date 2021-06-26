@@ -21,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:text="Food Name"
                 android:textSize="30sp"
                 android:layout_toEndOf="@id/foodImage"
                 android:layout_alignParentEnd="true"
@@ -34,14 +33,14 @@
                 tools:src="@drawable/ic_food"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
             <TextView
                 android:id="@+id/prepTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/foodName"
                 android:layout_toEndOf="@id/foodImage"
-                android:text="Prep Time: "
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
@@ -71,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
                 android:layout_alignParentStart="true"
-                android:text="Calories: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
             <TextView
@@ -80,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/servings"
                 android:layout_alignParentStart="true"
-                android:text="Fats: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
             <TextView
@@ -89,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cost"
                 android:layout_alignParentStart="true"
-                android:text="Protein: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
             <TextView
@@ -98,17 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/healthScore"
                 android:layout_alignParentStart="true"
-                android:text="Carbs: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
-            <ImageView
-                android:id="@+id/veg_nonVeg"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@id/divider"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_veg"
-                android:layout_marginTop="10dp"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/nextButton"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
@@ -117,7 +104,7 @@
                 android:layout_height="56dp"
                 app:icon="@drawable/ic_next"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/veg_nonVeg"
+                android:layout_alignParentBottom="true"
                 android:layout_marginTop="20dp"/>
         </RelativeLayout>
     </RelativeLayout>

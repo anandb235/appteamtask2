@@ -1,22 +1,21 @@
 package com.anand.appteamtask2;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,17 +55,21 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
         SpoonacularService search = retrofit.create(SpoonacularService.class);
         search.getMenuItemInfo(res.getMenuItems().get(position).getId(),BuildConfig.API_KEY).enqueue(new Callback<MenuInfoResult>(){
 
+            @SuppressWarnings("NullableProblems")
             @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(Call<MenuInfoResult> call, Response<MenuInfoResult> response) {
                 MenuInfoResult res = response.body();
-                holder.calories.setText(String.format("Caloriessss:"+res.getNutrition().getCalories()));
-                holder.fat.setText(String.format("Fat:"+res.getNutrition().getFat()));
-                holder.protein.setText(String.format("Protein:"+res.getNutrition().getProtein()));
-                holder.carbs.setText(String.format("Carbs:"+res.getNutrition().getCarbs()));
+                if (res!=null){
+                    holder.calories.setText(String.format("Calories: %s", res.getNutrition().getCalories()));
+                    holder.fat.setText(String.format("Fat: %s", res.getNutrition().getFat()));
+                    holder.protein.setText(String.format("Protein: %s", res.getNutrition().getProtein()));
+                    holder.carbs.setText(String.format("Carbs: %s", res.getNutrition().getCarbs()));
+                }
 
             }
 
+            @SuppressWarnings("NullableProblems")
             @Override
             public void onFailure(Call<MenuInfoResult> call, Throwable t) {
                 Log.i("onFailure: ", t.getMessage());
@@ -81,16 +84,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
     }
 
 
-    class myViewHolder extends RecyclerView.ViewHolder {
+    static class myViewHolder extends RecyclerView.ViewHolder {
         TextView foodName,restChain,calories,protein,fat,carbs;
         ImageView foodImage;
         int id;
         CardView cardView;
         RelativeLayout relativeLayout;
         Button nextButton;
-
-
-
+        Dialog myDialog;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,11 +106,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
             protein = itemView.findViewById(R.id.healthScore);
             carbs = itemView.findViewById(R.id.carbs);
 
-
-
-
-
-
             cardView.setOnClickListener(view -> {
 
 
@@ -121,9 +117,25 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.myViewHolder>{
                 }
             });
             nextButton.setOnClickListener(view -> {
-                Toast.makeText(view.getContext(), "button "+id, Toast.LENGTH_SHORT).show();
+                myDialog = new Dialog(view.getContext());
+                ShowPopup();
             });
 
+        }
+        public void ShowPopup(){
+            TextView text;
+            ImageView close,food;
+            WebView webView;
+            myDialog.setContentView(R.layout.custom_popup_menu);
+            close = myDialog.findViewById(R.id.cutButton);
+            food = myDialog.findViewById(R.id.foodImage);
+            text = myDialog.findViewById(R.id.text);
+            webView = myDialog.findViewById(R.id.webView);
+            close.setOnClickListener(view -> myDialog.dismiss());
+            food.setImageDrawable(foodImage.getDrawable());
+            text.setText(foodName.getText().toString());
+            webView.loadUrl("https://api.spoonacular.com/food/menuItems/"+id+"/nutritionWidget?defaultCss=true&apiKey="+BuildConfig.API_KEY);
+            myDialog.show();
         }
     }
 }

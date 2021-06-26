@@ -3,14 +3,11 @@ package com.anand.appteamtask2;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 
 public class MenuFragment extends Fragment {
@@ -40,12 +37,9 @@ public class MenuFragment extends Fragment {
                 return false;
             }
         });
-        search.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                getChildFragmentManager().beginTransaction().replace(R.id.frame,new EmptyFragment()).commit();
-                return false;
-            }
+        search.setOnCloseListener(() -> {
+            getChildFragmentManager().beginTransaction().replace(R.id.frame,new EmptyFragment()).commit();
+            return false;
         });
 
         getChildFragmentManager().beginTransaction().replace(R.id.frame,new EmptyFragment()).commit();

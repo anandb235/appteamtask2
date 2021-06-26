@@ -13,7 +13,4 @@ public class MenuModel {
         return menuItems;
     }
 
-    public void setMenuItems(List<MenuResults> menuItems) {
-        this.menuItems = menuItems;
-    }
 }

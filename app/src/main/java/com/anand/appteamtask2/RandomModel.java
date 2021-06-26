@@ -12,8 +12,4 @@ public class RandomModel {
     public List<ComplexSearchResults> getRecipes() {
         return recipes;
     }
-
-    public void setRecipes(List<ComplexSearchResults> recipes) {
-        this.recipes = recipes;
-    }
 }

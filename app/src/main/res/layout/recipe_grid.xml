@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/card"
     android:layout_marginTop="3dp"
-    android:background="#00000000">
+    app:cardBackgroundColor="@color/transparent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:text="Food Name"
                 android:textSize="30sp"
                 android:layout_toEndOf="@id/foodImage"
                 android:layout_alignParentEnd="true"
@@ -34,14 +33,14 @@
                 tools:src="@drawable/ic_food"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
             <TextView
                 android:id="@+id/prepTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/foodName"
                 android:layout_toEndOf="@id/foodImage"
-                android:text="Prep Time: "
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
@@ -71,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
                 android:layout_alignParentStart="true"
-                android:text="Servings: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
             <TextView
@@ -80,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/servings"
                 android:layout_alignParentStart="true"
-                android:text="Est. Cost: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
             <TextView
@@ -89,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cost"
                 android:layout_alignParentStart="true"
-                android:text="Health Score: "
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"/>
             <ImageView
@@ -99,7 +95,8 @@
                 android:layout_below="@id/divider"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_veg"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                tools:ignore="ContentDescription" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/nextButton"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"

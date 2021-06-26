@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">App team Task2</string>
-    <string name="showOnEmpty">Press \'SEARCH ITEMS\' to search for Menu Items <br /><br />
-        <br /><br />OR<br /><br />Press \'VIEW RANDOM\' to get a random menu item</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Recipe &amp; Menu</string>
+    <string name="fragment_empty_string">Searched Items will be displayed here</string>
 </resources>
